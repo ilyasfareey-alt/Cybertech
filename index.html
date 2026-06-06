@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TeachSchool - Cyber Security Academy | Ilyas Abdi Ali</title>
+<meta name="description" content="TeachSchool Academy - Cyber Security, CEH, Linux, Penetration Testing. Waxaa aas aasay Ilyas Abdi Ali.">
+<meta name="keywords" content="TeachSchool, CEH, cyber security, Ilyas Abdi Ali, Linux, Somalia">
+<meta name="author" content="Ilyas Abdi Ali">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--gold:#ffd700;--gold-dark:#ff8f00;--green:#00e676;--dark:#0a0a0a;--dark2:#111;--dark3:#1a1a1a;--dark4:#2a2a2a;--text:#fff;--muted:#aaa;--border:#333;--radius:12px;--radius-lg:20px}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--dark);color:var(--text);min-height:100vh;overflow-x:hidden}
+@keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes scaleIn{from{transform:scale(0.8);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes glow{0%,100%{box-shadow:0 0 20px rgba(255,215,0,0.3)}50%{box-shadow:0 0 60px rgba(255,215,0,0.6)}}
+@keyframes blink{0%,43%,48%,100%{height:20px;top:32px}45%{height:4px;top:40px}}
+@keyframes faceFloat{0%,100%{transform:translateY(0) rotate(0deg)}25%{transform:translateY(-5px) rotate(-3deg)}75%{transform:translateY(-5px) rotate(3deg)}}
+
+.header{background:var(--dark3);border-bottom:1px solid var(--border);padding:12px 40px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:1000;box-shadow:0 2px 20px rgba(0,0,0,0.3)}
+.logo{display:flex;align-items:center;gap:12px;cursor:pointer}
+.logo-icon{width:44px;height:44px;background:linear-gradient(135deg,var(--gold),var(--gold-dark));border-radius:var(--radius);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:900;color:var(--dark)}
+.logo-text{font-size:22px;font-weight:800;color:var(--text)}
+.logo-text span{color:var(--gold)}
+.nav{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.nav a{padding:8px 18px;color:var(--muted);text-decoration:none;font-size:14px;font-weight:500;border-radius:50px;transition:all 0.3s ease;cursor:pointer}
+.nav a:hover{background:rgba(255,215,0,0.1);color:var(--gold)}
+.profile-btn{display:flex;align-items:center;gap:10px;padding:6px 16px 6px 6px;background:rgba(255,215,0,0.08);border:1px solid rgba(255,215,0,0.2);border-radius:50px;color:var(--gold);cursor:pointer;transition:all 0.3s ease;font-weight:500}
+.profile-btn:hover{background:rgba(255,215,0,0.15)}
+.profile-avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold-dark));display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--dark);font-size:14px}
+
+/* LOGIN */
+#loginScreen{position:fixed;top:0;left:0;width:100%;height:100%;display:flex;justify-content:center;align-items:center;background:var(--dark);z-index:2000;transition:all 0.6s cubic-bezier(0.68,-0.55,0.265,1.55)}
+#loginScreen.hidden{opacity:0;visibility:hidden;transform:scale(0.8);pointer-events:none}
+.login-wrapper{display:flex;background:var(--dark3);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;box-shadow:0 10px 50px rgba(255,215,0,0.1);max-width:900px;width:95%;min-height:550px;animation:scaleIn 0.6s ease}
+.login-left{flex:1;background:linear-gradient(135deg,#111,#0a0a0a);padding:50px 40px;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;border-right:1px solid var(--border)}
+.face-container{width:130px;height:130px;margin-bottom:25px;position:relative;animation:faceFloat 3s ease-in-out infinite}
+.face{width:100%;height:100%;border-radius:50%;background:radial-gradient(circle at 35% 35%,#ffd700,#ffaa00,#ff8800);box-shadow:0 10px 40px rgba(255,215,0,0.3);position:relative;overflow:hidden;animation:glow 3s ease-in-out infinite}
+.face::after{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle at 30% 30%,rgba(255,255,255,0.3),transparent 50%)}
+.eye-l,.eye-r{width:20px;height:20px;background:#0a0a0a;border-radius:50%;position:absolute;top:32px;animation:blink 4s ease-in-out infinite;z-index:2}
+.eye-l{left:30px}.eye-r{right:30px}
+.pupil{width:9px;height:9px;background:#000;border-radius:50%;position:absolute;top:5px;left:5px}
+.mouth{width:40px;height:12px;border-bottom:4px solid #0a0a0a;border-radius:0 0 25px 25px;position:absolute;bottom:22px;left:50%;transform:translateX(-50%);transition:all 0.3s ease}
+.face.happy .mouth{height:22px}
+.login-left h2{font-size:26px;font-weight:800;color:var(--gold);margin-bottom:8px}
+.login-left p{font-size:13px;color:var(--muted);text-align:center;line-height:1.6}
+.login-right{flex:1.2;padding:50px 45px;display:flex;flex-direction:column;justify-content:center}
+.login-right .welcome{font-size:24px;font-weight:800;color:var(--text);margin-bottom:5px}
+.login-right .subtitle{color:var(--muted);font-size:14px;margin-bottom:20px}
+.auth-tabs{display:flex;background:var(--dark4);border-radius:50px;padding:4px;margin-bottom:20px;border:1px solid var(--border)}
+.auth-tab{flex:1;padding:10px;border:none;background:transparent;border-radius:50px;font-size:14px;font-weight:600;color:var(--muted);cursor:pointer;transition:all 0.3s ease}
+.auth-tab.active{background:var(--dark);color:var(--gold);box-shadow:0 2px 10px rgba(0,0,0,0.3)}
+.inp{margin-bottom:14px;position:relative}
+.inp label{display:block;font-size:13px;font-weight:600;color:var(--muted);margin-bottom:5px}
+.inp .ic{position:absolute;left:14px;top:40px;color:#666;font-size:16px}
+.inp input,.inp select{width:100%;padding:12px 14px 12px 40px;border:1px solid var(--border);border-radius:var(--radius);background:var(--dark4);color:var(--text);font-size:14px;outline:none;transition:all 0.3s ease}
+.inp input:focus,.inp select:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(255,215,0,0.1)}
+.btn-gold{width:100%;padding:13px;border:none;border-radius:var(--radius);background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:var(--dark);font-size:16px;font-weight:700;cursor:pointer;transition:all 0.3s ease;margin-top:8px;box-shadow:0 4px 20px rgba(255,215,0,0.3)}
+.btn-gold:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(255,215,0,0.4)}
+.btn-ghost{width:100%;padding:12px;border:1px solid var(--border);border-radius:var(--radius);background:transparent;color:var(--muted);font-size:14px;font-weight:600;cursor:pointer;transition:all 0.3s ease;margin-top:8px}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
+.switch{color:var(--gold);cursor:pointer;font-weight:600;font-size:13px}
+.switch:hover{text-decoration:underline}
+
+/* HERO */
+.hero{padding:80px 40px 60px;text-align:center;background:linear-gradient(180deg,#111 0%,var(--dark) 100%);position:relative;overflow:hidden}
+.hero h1{font-size:44px;font-weight:900;margin-bottom:15px;line-height:1.3}
+.hero h1 span{color:var(--gold)}
+.hero p{color:var(--muted);font-size:16px;max-width:800px;margin:0 auto 30px;line-height:1.8}
+.hero-stats{display:flex;justify-content:center;gap:50px;margin-top:30px;flex-wrap:wrap}
+.stat{text-align:center}
+.stat-icon{font-size:30px;margin-bottom:5px}
+.stat-num{font-size:30px;font-weight:800;color:var(--gold)}
+.stat-lbl{color:var(--muted);font-size:13px}
+
+/* ABOUT */
+.about{padding:60px 40px;background:var(--dark3);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.about-c{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:50px;flex-wrap:wrap}
+.about-img{flex:0 0 280px;text-align:center}
+.profile-photo{width:250px;height:250px;border-radius:50%;object-fit:cover;border:4px solid var(--gold);box-shadow:0 10px 40px rgba(255,215,0,0.2)}
+.about-text{flex:1;min-width:300px}
+.about-text .badge{display:inline-block;padding:6px 16px;background:rgba(255,215,0,0.1);color:var(--gold);border-radius:50px;font-size:12px;font-weight:600;margin-bottom:12px}
+.about-text h2{font-size:30px;font-weight:800;color:var(--text);margin-bottom:5px}
+.about-text .title{color:var(--gold);font-size:15px;font-weight:600;margin-bottom:15px}
+.about-text p{color:var(--muted);line-height:1.9;font-size:14px;margin-bottom:10px}
+.about-text .hl{color:var(--gold);font-weight:600}
+.social{display:flex;gap:12px;margin-top:20px}
+.social a{width:40px;height:40px;border-radius:50%;background:var(--dark4);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--muted);text-decoration:none;transition:all 0.3s ease;font-size:16px}
+.social a:hover{background:var(--gold);color:var(--dark);border-color:var(--gold);transform:translateY(-3px)}
+
+/* SECTIONS */
+.section{padding:50px 40px}
+.section-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:30px;flex-wrap:wrap;gap:15px}
+.section-t{font-size:26px;font-weight:800;color:var(--text)}
+.section-t span{color:var(--gold)}
+.filters{display:flex;gap:8px;flex-wrap:wrap}
+.f-btn{padding:8px 20px;border:1px solid var(--border);border-radius:50px;background:var(--dark3);color:var(--muted);cursor:pointer;font-size:13px;font-weight:500;transition:all 0.3s ease}
+.f-btn:hover{border-color:var(--gold);color:var(--gold)}
+.f-btn.active{background:var(--gold);color:var(--dark);border-color:var(--gold)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:25px}
+.card{background:var(--dark3);border:1px solid var(--border);border-radius:var(--radius-lg);padding:25px;transition:all 0.3s ease;cursor:pointer;position:relative}
+.card:hover{transform:translateY(-6px);border-color:var(--gold);box-shadow:0 10px 50px rgba(255,215,0,0.1)}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--gold),var(--gold-dark));border-radius:var(--radius-lg) var(--radius-lg) 0 0;transform:scaleX(0);transition:transform 0.3s ease}
+.card:hover::before{transform:scaleX(1)}
+.card-img{width:100%;height:140px;border-radius:var(--radius);margin-bottom:15px;display:flex;align-items:center;justify-content:center;font-size:48px;position:relative;overflow:hidden}
+.card-badge{position:absolute;top:10px;right:10px;padding:4px 12px;border-radius:50px;font-size:10px;font-weight:700;background:var(--gold);color:var(--dark)}
+.card-name{font-size:16px;font-weight:700;color:var(--text);margin-bottom:6px}
+.card-desc{color:var(--muted);font-size:13px;line-height:1.5;margin-bottom:12px}
+.card-meta{display:flex;justify-content:space-between;align-items:center}
+.price{font-size:22px;font-weight:800;color:var(--gold)}
+.dur{color:var(--muted);font-size:12px}
+.enroll{width:100%;padding:10px;margin-top:12px;border:1px solid var(--gold);border-radius:var(--radius);background:transparent;color:var(--gold);font-size:13px;font-weight:600;cursor:pointer;transition:all 0.3s ease}
+.enroll:hover{background:var(--gold);color:var(--dark)}
+
+/* FOOTER */
+.footer{background:var(--dark3);border-top:1px solid var(--border);padding:50px 40px 25px;margin-top:40px}
+.footer-g{display:grid;grid-template-columns:repeat(4,1fr);gap:35px;margin-bottom:30px}
+.footer h4{color:var(--text);font-size:15px;font-weight:700;margin-bottom:15px}
+.footer p,.footer a{color:rgba(255,255,255,0.4);font-size:13px;line-height:2;text-decoration:none;display:block}
+.footer a:hover{color:var(--gold)}
+.footer-b{border-top:1px solid var(--border);padding-top:20px;text-align:center;color:rgba(255,255,255,0.3);font-size:13px}
+
+/* MODAL */
+.modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);backdrop-filter:blur(10px);display:none;justify-content:center;align-items:center;z-index:3000}
+.modal-overlay.active{display:flex}
+.modal{background:var(--dark3);border:1px solid var(--border);border-radius:var(--radius-lg);padding:35px;width:500px;max-width:94%;animation:scaleIn 0.4s ease;box-shadow:0 30px 80px rgba(0,0,0,0.5)}
+.modal h2{font-size:22px;font-weight:800;color:var(--gold);margin-bottom:20px;text-align:center}
+.modal-close{float:right;border:none;background:transparent;font-size:24px;color:var(--muted);cursor:pointer;transition:all 0.3s ease}
+.modal-close:hover{color:var(--gold)}
+
+/* TOAST */
+.toast{position:fixed;bottom:30px;right:30px;padding:14px 24px;border-radius:var(--radius);background:var(--dark3);border:1px solid var(--border);color:var(--text);font-size:14px;font-weight:500;transform:translateY(100px);opacity:0;transition:all 0.5s ease;z-index:5000;box-shadow:0 10px 40px rgba(0,0,0,0.3);display:flex;align-items:center;gap:10px}
+.toast.show{transform:translateY(0);opacity:1}
+.toast.success{border-left:4px solid var(--green)}
+.toast.error{border-left:4px solid #ff1744}
+
+@media(max-width:768px){
+.header{padding:10px 15px}
+.hero{padding:40px 15px}
+.hero h1{font-size:28px}
+.section{padding:30px 15px}
+.grid{grid-template-columns:1fr}
+.login-wrapper{flex-direction:column}
+.login-left{padding:30px;border-right:none;border-bottom:1px solid var(--border)}
+.login-right{padding:30px 25px}
+.about-c{flex-direction:column;text-align:center}
+.footer-g{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN SCREEN -->
+<div id="loginScreen">
+<div class="login-wrapper">
+<div class="login-left">
+<div class="face-container">
+<div class="face" id="face">
+<div class="eye-l"><div class="pupil"></div></div>
+<div class="eye-r"><div class="pupil"></div></div>
+<div class="mouth"></div>
+</div>
+</div>
+<h2>✨ TeachSchool</h2>
+<p>ASC KUSOW DHAWAAD<br>Waxaa aas aasay: Ilyas Abdi Ali</p>
+</div>
+<div class="login-right">
+<div class="welcome">ASC KUSOW DHAWAAD! 👋</div>
+<div class="subtitle">Soo gal akoonkaaga ama sameyso akoon cusub</div>
+<div class="auth-tabs">
+<button class="auth-tab active" onclick="swAuth('login')" id="tabLogin">🔑 Sign In</button>
+<button class="auth-tab" onclick="swAuth('signup')" id="tabSignup">📝 Sign Up Free</button>
+</div>
+
+<div id="loginForm">
+<div class="inp"><label>📧 Email</label><i class="fas fa-envelope ic"></i><input type="email" id="loginEmail" placeholder="your@email.com"></div>
+<div class="inp"><label>🔑 Password</label><i class="fas fa-lock ic"></i><input type="password" id="loginPassword" placeholder="Enter password"></div>
+<button class="btn-gold" onclick="handleLogin()">🔓 Sign In</button>
+<p style="margin-top:12px;font-size:13px;color:var(--muted);text-align:center;">Don't have account? <span class="switch" onclick="swAuth('signup')">Sign Up Free</span></p>
+</div>
+
+<div id="signupForm" style="display:none;">
+<div class="inp"><label>👤 Full Name</label><i class="fas fa-user ic"></i><input type="text" id="signupName" placeholder="Your full name"></div>
+<div class="inp"><label>📧 Email</label><i class="fas fa-envelope ic"></i><input type="email" id="signupEmail" placeholder="your@email.com"></div>
+<div class="inp"><label>📞 Phone</label><i class="fas fa-phone ic"></i><input type="text" id="signupPhone" placeholder="061xxxxxxx"></div>
+<div class="inp"><label>🔑 Password</label><i class="fas fa-key ic"></i><input type="password" id="signupPassword" placeholder="Min 4 characters"></div>
+<button class="btn-gold" onclick="handleSignup()">📝 Create Free Account</button>
+<p style="margin-top:12px;font-size:13px;color:var(--muted);text-align:center;">Already have account? <span class="switch" onclick="swAuth('login')">Sign In</span></p>
+</div>
+</div>
+</div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div id="mainContent" style="display:none;">
+
+<!-- HEADER -->
+<header class="header">
+<div class="logo"><div class="logo-icon">TS</div><div class="logo-text">Teach<span>School</span></div></div>
+<nav class="nav">
+<a onclick="filterC('all')"><i class="fas fa-home"></i> Home</a>
+<a onclick="filterC('all')"><i class="fas fa-book"></i> Courses</a>
+<a onclick="openM('aboutM')"><i class="fas fa-info-circle"></i> About</a>
+<a onclick="openM('contactM')"><i class="fas fa-phone"></i> Contact</a>
+<div class="profile-btn" onclick="showProfile()">
+<div class="profile-avatar" id="profileAvatar">U</div>
+<span id="profileNameDisplay">User</span>
+</div>
+</nav>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+<h1>🔐 <span>ASC KUSOW DHAWAAD</span><br>TeachSchool Academy</h1>
+<p>Waxaa aas aasay anigow ah <strong>ILYAS ABDI ALI</strong>. Waxaan website kan u aas aasay in aan ummadda Soomaaliyeed cashiro fiican lagu siiyo iyo cilmi kororsi. <strong>Waxaa lagu bari doonaa Linux iyo qaababkiisa kala duwan</strong>.</p>
+<div class="hero-stats">
+<div class="stat"><div class="stat-icon">🎓</div><div class="stat-num">1,000+</div><div class="stat-lbl">Students</div></div>
+<div class="stat"><div class="stat-icon">📚</div><div class="stat-num">25+</div><div class="stat-lbl">Courses</div></div>
+<div class="stat"><div class="stat-icon">🐧</div><div class="stat-num">Linux</div><div class="stat-lbl">Focused</div></div>
+<div class="stat"><div class="stat-icon">🛡️</div><div class="stat-num">100%</div><div class="stat-lbl">Practical</div></div>
+</div>
+</section>
+
+<!-- ABOUT ME -->
+<section class="about">
+<div class="about-c">
+<div class="about-img">
+<div style="width:250px;height:250px;border-radius:50%;background:linear-gradient(135deg,var(--gold),#ff8f00);display:flex;align-items:center;justify-content:center;font-size:80px;color:var(--dark);margin:0 auto;border:4px solid var(--gold);box-shadow:0 10px 40px rgba(255,215,0,0.2);">
+<i class="fas fa-user-tie"></i>
+</div>
+<p style="margin-top:10px;font-size:12px;color:var(--muted);">[Sawirkaaga]</p>
+</div>
+<div class="about-text">
+<div class="badge"><i class="fas fa-crown"></i> Aasaasaha & Macalinku</div>
+<h2>ILYAS ABDI ALI</h2>
+<p class="title">ASC KUSOW DHAWAAD • Cyber Security & Linux Expert</p>
+<p><span class="hl">ASC KUSOW DHAWAAD WEBSITE KENA DHAWAAN AYAAN AAS AASNAY.</span> Waxaa u aas aasay in aan ummadda Soomaaliyeed cashiro fiican lagu siiyo iyo cilmi kororsi.</p>
+<p><strong>Waxaa lagu bari doonaa Linux iyo qaababkiisa kala duwan</strong>. Linux waa nidaamka aasaasiga u ah cyber security. Dhamaan qalabka pentesting waxay ku shaqeeyaan Linux. Waxaad baran doontaa:</p>
+<p>🐧 Kali Linux • 🐧 Ubuntu • 🐧 Parrot OS • 🐧 CentOS • 🐧 Terminal commands • 🐧 Bash scripting • 🐧 Network configurations • 🐧 Security tools</p>
+<p><span class="hl">Waxaa idin bari doono anigu ah ILYAAS ABDI ALI</span> - khabiir ku takhasusay Cyber Security, Ethical Hacking, Penetration Testing, iyo Linux system administration.</p>
+<div class="social">
+<a href="#"><i class="fab fa-facebook-f"></i></a>
+<a href="#"><i class="fab fa-twitter"></i></a>
+<a href="#"><i class="fab fa-instagram"></i></a>
+<a href="#"><i class="fab fa-linkedin-in"></i></a>
+<a href="#"><i class="fab fa-telegram-plane"></i></a>
+<a href="#"><i class="fab fa-youtube"></i></a>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ENROLLED -->
+<section class="section">
+<div class="section-h"><div class="section-t">✅ My <span>Courses</span></div></div>
+<div id="enrolledGrid"><div style="color:var(--muted);font-size:14px;text-align:center;padding:40px;background:var(--dark3);border-radius:var(--radius-lg);">
+<i class="fas fa-graduation-cap" style="font-size:40px;color:var(--gold);margin-bottom:10px;display:block;"></i>
+Enroll in courses below to see your learning journey here!</div></div>
+</section>
+
+<!-- COURSES -->
+<section class="section" style="background:var(--dark2);">
+<div class="section-h">
+<div class="section-t">All <span>Courses</span> <span style="font-size:14px;color:var(--muted);font-weight:400;">💳 Paid Only</span></div>
+<div class="filters">
+<button class="f-btn active" onclick="filterC('all')">All</button>
+<button class="f-btn" onclick="filterC('premium')">⭐ $50</button>
+<button class="f-btn" onclick="filterC('standard')">📘 $30</button>
+<button class="f-btn" onclick="filterC('popular')">🔥 Popular</button>
+</div>
+</div>
+<div class="grid" id="coursesGrid"></div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+<div class="footer-g">
+<div>
+<h4>🏫 TeachSchool Academy</h4>
+<p>Waxaa aas aasay Ilyas Abdi Ali. Waxaa lagu bari doonaa Linux iyo qaababkiisa kala duwan.</p>
+</div>
+<div>
+<h4>Quick Links</h4>
+<a href="#">All Courses</a>
+<a href="#">Linux Essentials</a>
+<a href="#">CEH Certification</a>
+<a href="#">Blog</a>
+</div>
+<div>
+<h4>Support</h4>
+<a href="#">Help Center</a>
+<a href="#">FAQ</a>
+<a href="#">Contact</a>
+</div>
+<div>
+<h4>Contact</h4>
+<p><i class="fas fa-envelope"></i> info@teachschool.com</p>
+<p><i class="fas fa-phone"></i> +252 682 390 000</p>
+<p><i class="fas fa-map-marker-alt"></i> Mogadishu, Somalia</p>
+</div>
+</div>
+<div class="footer-b">© 2025 TeachSchool Academy | Waxaa aas aasay: ILYAAS ABDI ALI | ASC KUSOW DHAWAAD</div>
+</footer>
+</div>
+
+<!-- MODALS -->
+<div class="modal-overlay" id="paymentM"><div class="modal">
+<button class="modal-close" onclick="closeM('paymentM')">&times;</button>
+<h2>💳 Pay for Course</h2>
+<p style="text-align:center;font-size:18px;font-weight:700;color:var(--gold);" id="payCourseName"></p>
+<p style="text-align:center;font-size:32px;font-weight:900;color:var(--text);" id="payPrice"></p>
+<div style="padding-top:20px;margin-top:15px;">
+<div class="inp"><label>💳 Card Number</label><i class="fas fa-credit-card ic"></i><input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19"></div>
+<div style="display:flex;gap:15px;">
+<div class="inp" style="flex:1;"><label>📅 Expiry</label><i class="fas fa-calendar ic"></i><input type="text" id="cardExpiry" placeholder="MM/YY" maxlength="5"></div>
+<div class="inp" style="flex:1;"><label>🔐 CVV</label><i class="fas fa-lock ic"></i><input type="text" id="cardCvv" placeholder="123" maxlength="4"></div>
+</div>
+<div class="inp"><label>👤 Name</label><i class="fas fa-user ic"></i><input type="text" id="cardName" placeholder="Name on card"></div>
+<button class="btn-gold" onclick="processPay()"><i class="fas fa-lock"></i> Pay Now - Secure</button>
+<button class="btn-ghost" onclick="closeM('paymentM')">Cancel</button>
+</div>
+</div></div>
+
+<div class="modal-overlay" id="aboutM"><div class="modal">
+<button class="modal-close" onclick="closeM('aboutM')">&times;</button>
+<h2>ℹ️ About TeachSchool</h2>
+<p style="color:var(--muted);line-height:1.8;font-size:14px;"><strong style="color:var(--gold);">ASC KUSOW DHAWAAD!</strong> TeachSchool waa academy ku takhasusay <strong style="color:var(--gold);">Cyber Security, Linux, Ethical Hacking, Penetration Testing, CEH, Network Security</strong>.</p>
+<p style="color:var(--muted);line-height:1.8;font-size:14px;margin-top:10px;"><strong style="color:var(--gold);">Waxaa aas aasay ILYAAS ABDI ALI</strong>. Waxaa u aas aasay in aan ummadda Soomaaliyeed cashiro fiican lagu siiyo iyo cilmi kororsi.</p>
+<p style="color:var(--muted);line-height:1.8;font-size:14px;margin-top:10px;"><strong style="color:var(--gold);">🐧 Waxaa lagu bari doonaa Linux iyo qaababkiisa kala duwan.</strong></p>
+<p style="color:var(--gold);font-weight:700;margin-top:15px;text-align:center;">📅 Casharada waxay soo bixi doonaan dhawaan!</p>
+<button class="btn-ghost" onclick="closeM('aboutM')" style="margin-top:15px;">Close</button>
+</div></div>
+
+<div class="modal-overlay" id="contactM"><div class="modal">
+<button class="modal-close" onclick="closeM('contactM')">&times;</button>
+<h2>📞 Contact</h2>
+<p style="margin:10px 0;color:var(--muted);"><i class="fas fa-envelope" style="color:var(--gold);width:25px;"></i> info@teachschool.com</p>
+<p style="margin:10px 0;color:var(--muted);"><i class="fas fa-phone" style="color:var(--gold);width:25px;"></i> +252 682 390 000</p>
+<p style="margin:10px 0;color:var(--muted);"><i class="fas fa-map-marker-alt" style="color:var(--gold);width:25px;"></i> Mogadishu, Somalia</p>
+<p style="margin:10px 0;color:var(--muted);"><i class="fab fa-telegram" style="color:var(--gold);width:25px;"></i> @TeachSchool</p>
+<button class="btn-ghost" onclick="closeM('contactM')" style="margin-top:15px;">Close</button>
+</div></div>
+
+<div class="modal-overlay" id="profileM"><div class="modal" style="text-align:center;">
+<button class="modal-close" onclick="closeM('profileM')">&times;</button>
+<div style="width:90px;height:90px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold-dark));display:flex;align-items:center;justify-content:center;font-size:36px;font-weight:700;color:var(--dark);margin:0 auto 15px;" id="profileMAvatar">U</div>
+<h2 id="profileMName" style="color:var(--text);font-size:22px;">User</h2>
+<p id="profileMEmail" style="color:var(--muted);font-size:13px;">user@email.com</p>
+<p id="profileMPhone" style="color:var(--muted);font-size:13px;margin-top:5px;"><i class="fas fa-phone"></i> Not set</p>
+<p id="profileMCourses" style="color:var(--gold);font-size:14px;margin:12px 0;font-weight:600;"><i class="fas fa-book"></i> Enrolled: 0 courses</p>
+<button class="btn-ghost" onclick="closeM('profileM')" style="margin-top:15px;">Close</button>
+</div></div>
+
+<div class="toast" id="toast"><i class="fas fa-bell" id="toastIcon"></i><span id="toastMsg"></span></div>
+
+<script>
+// DATABASE
+const DB={getUsers(){return JSON.parse(localStorage.getItem('ts_users')||'[]')},saveUsers(u){localStorage.setItem('ts_users',JSON.stringify(u))},getCurrent(){return JSON.parse(localStorage.getItem('ts_current')||'null')},setCurrent(u){localStorage.setItem('ts_current',JSON.stringify(u))},getPurchases(){return JSON.parse(localStorage.getItem('ts_purchases')||'[]')},savePurchases(p){localStorage.setItem('ts_purchases',JSON.stringify(p))}};
+
+const courses=[
+{id:1,name:'Linux Fundamentals (Kali/Ubuntu)',icon:'🐧',img:'linear-gradient(135deg,#ffd700,#ff8f00)',desc:'Learn Linux from scratch. Terminal, commands, file system, user management.',price:30,type:'standard',duration:'2 months',badge:'Popular'},
+{id:2,name:'Kali Linux for Pentesting',icon:'💀',img:'linear-gradient(135deg,#ff1744,#b71c1c)',desc:'Master Kali Linux tools for penetration testing and security assessments.',price:50,type:'premium',duration:'4 months',badge:'Popular'},
+{id:3,name:'Certified Ethical Hacker (CEH)',icon:'🛡️',img:'linear-gradient(135deg,#d500f9,#6a0080)',desc:'Master ethical hacking methodologies. Think like a hacker to defend systems.',price:50,type:'premium',duration:'6 months',badge:'Popular'},
+{id:4,name:'Advanced Penetration Testing',icon:'💻',img:'linear-gradient(135deg,#00e676,#00c853)',desc:'Advanced exploitation, privilege escalation, post-exploitation techniques.',price:50,type:'premium',duration:'5 months'},
+{id:5,name:'Web Application Security',icon:'🌐',img:'linear-gradient(135deg,#448aff,#1565c0)',desc:'OWASP Top 10, SQLi, XSS, CSRF, modern web attacks.',price:30,type:'standard',duration:'4 months'},
+{id:6,name:'Network Penetration Testing',icon:'🌍',img:'linear-gradient(135deg,#ff9100,#e65100)',desc:'Network scanning, enumeration, exploitation, Active Directory attacks.',price:30,type:'standard',duration:'4 months'},
+{id:7,name:'Linux Server Administration',icon:'🐧',img:'linear-gradient(135deg,#00bcd4,#00838f)',desc:'Manage Linux servers. Apache, Nginx, MySQL, Docker, security hardening.',price:50,type:'premium',duration:'5 months',badge:'New'},
+{id:8,name:'Bash Scripting & Automation',icon:'⚡',img:'linear-gradient(135deg,#536dfe,#1a237e)',desc:'Automate tasks with Bash. Write scripts for pentesting and administration.',price:30,type:'standard',duration:'2 months'},
+{id:9,name:'Social Engineering & OSINT',icon:'🎯',img:'linear-gradient(135deg,#d500f9,#aa00ff)',desc:'Human hacking, phishing, pretexting, open-source intelligence.',price:50,type:'premium',duration:'3 months'},
+{id:10,name:'Mobile Application Security',icon:'📱',img:'linear-gradient(135deg,#00bcd4,#006064)',desc:'Android & iOS penetration testing. Reverse engineer mobile apps.',price:50,type:'premium',duration:'4 months'},
+{id:11,name:'Cloud Security AWS/Azure/GCP',icon:'☁️',img:'linear-gradient(135deg,#536dfe,#1a237e)',desc:'Secure cloud infrastructure. IAM, containers, cloud attack vectors.',price:50,type:'premium',duration:'5 months',badge:'New'},
+{id:12,name:'IoT & Hardware Hacking',icon:'🔌',img:'linear-gradient(135deg,#ff5722,#bf360c)',desc:'Hack embedded systems, RFID, Bluetooth, IoT devices.',price:30,type:'standard',duration:'3 months'},
+{id:13,name:'Digital Forensics & IR',icon:'🔍',img:'linear-gradient(135deg,#4caf50,#1b5e20)',desc:'Cyber crime investigation, disk forensics, memory analysis.',price:30,type:'standard',duration:'4 months'},
+{id:14,name:'Red Team Operations',icon:'🎭',img:'linear-gradient(135deg,#e91e63,#880e4f)',desc:'Full red team engagements. Bypass EDR, evade defenses.',price:50,type:'premium',duration:'6 months'},
+{id:15,name:'Bug Bounty Hunting',icon:'🐛',img:'linear-gradient(135deg,#ff6d00,#e65100)',desc:'Find & report vulnerabilities. Bug bounty methodology.',price:30,type:'standard',duration:'3 months',badge:'Popular'},
+{id:16,name:'OSINT & Reconnaissance',icon:'🕵️',img:'linear-gradient(135deg,#ffab00,#ff6f00)',desc:'Advanced info gathering. Social media OSINT, dark web.',price:30,type:'standard',duration:'3 months'},
+{id:17,name:'Wireless Network Security',icon:'📶',img:'linear-gradient(135deg,#00b0ff,#006db3)',desc:'Hack Wi-Fi, crack WPA/WPA2, evil twin attacks.',price:30,type:'standard',duration:'3 months'},
+{id:18,name:'Exploit Development',icon:'🔧',img:'linear-gradient(135deg,#7c4dff,#4a148c)',desc:'Write custom exploits. Buffer overflows, ROP chains, shellcode.',price:50,type:'premium',duration:'6 months'},
+{id:19,name:'Python for Hacking',icon:'🐍',img:'linear-gradient(135deg,#69f0ae,#2e7d32)',desc:'Automate security tasks. Build scanners, fuzzers, attack tools.',price:30,type:'standard',duration:'3 months'},
+{id:20,name:'SOC Analyst & Blue Team',icon:'🛡️',img:'linear-gradient(135deg,#2979ff,#0d47a1)',desc:'Defend networks. SIEM, threat hunting, log analysis.',price:30,type:'standard',duration:'4 months'},
+{id:21,name:'CompTIA Security+',icon:'📜',img:'linear-gradient(135deg,#607d8b,#37474f)',desc:'Get certified. Network security, compliance, cryptography.',price:50,type:'premium',duration:'4 months'},
+{id:22,name:'CISSP Certification',icon:'🏆',img:'linear-gradient(135deg,#ffd740,#ff8f00)',desc:'Advanced security management. Architecture, risk.',price:50,type:'premium',duration:'6 months',badge:'New'},
+{id:23,name:'Malware Analysis',icon:'🧩',img:'linear-gradient(135deg,#f44336,#b71c1c)',desc:'Dissect malware. Analyze binaries, unpack executables.',price:50,type:'premium',duration:'5 months'},
+{id:24,name:'Active Directory Pentesting',icon:'🏢',img:'linear-gradient(135deg,#0044ff,#001144)',desc:'Attack AD environments. Kerberos, ACL abuse, escalation.',price:50,type:'premium',duration:'4 months',badge:'Popular'},
+{id:25,name:'Docker & K8s Security',icon:'🐳',img:'linear-gradient(135deg,#00aaff,#00446b)',desc:'Secure containers. Escape attacks, hardening.',price:30,type:'standard',duration:'3 months'}
+];
+
+function swAuth(t){document.getElementById('loginForm').style.display=t==='login'?'block':'none';document.getElementById('signupForm').style.display=t==='signup'?'block':'none';document.getElementById('tabLogin').className=t==='login'?'auth-tab active':'auth-tab';document.getElementById('tabSignup').className=t==='signup'?'auth-tab active':'auth-tab'}
+
+function handleLogin(){const e=document.getElementById('loginEmail').value.trim(),p=document.getElementById('loginPassword').value.trim();if(!e||!p){showT('⚠️ Fadlan buuxi goobaha!');return}const users=DB.getUsers(),user=users.find(u=>u.email===e&&u.password===p);if(!user){showT('⚠️ Email ama password khalad!');return}DB.setCurrent(user);enterSite(user)}
+
+function handleSignup(){const n=document.getElementById('signupName').value.trim(),e=document.getElementById('signupEmail').value.trim(),ph=document.getElementById('signupPhone').value.trim(),p=document.getElementById('signupPassword').value.trim();if(!n||!e||!ph||!p){showT('⚠️ Fadlan buuxi dhammaan!');return}if(p.length<4){showT('⚠️ Password waa inuu 4 xaraf ka badanyahay!');return}let users=DB.getUsers();if(users.find(u=>u.email===e)){showT('⚠️ Email horey umuu diwaan gashan yahay!');return}const user={name:n,email:e,phone:ph,password:p,joined:new Date().toISOString(),enrolled:[]};users.push(user);DB.saveUsers(users);DB.setCurrent(user);showT('✅ Akoonkaagu waa la sameeyay! Welcome '+n);enterSite(user)}
+
+function enterSite(u){updateDisp();document.getElementById('loginScreen').classList.add('hidden');document.getElementById('mainContent').style.display='block';renderC();renderE();showT('✨ ASC KUSOW DHAWAAD! Welcome '+u.name)}
+
+function updateDisp(){const u=DB.getCurrent();if(!u)return;document.getElementById('profileNameDisplay').textContent=u.name;document.getElementById('profileAvatar').textContent=u.name.charAt(0).toUpperCase()}
+
+function renderC(f='all'){const grid=document.getElementById('coursesGrid');let data=f==='all'?courses:courses.filter(c=>c.type===f||(f==='popular'&&c.badge==='Popular'));const user=DB.getCurrent(),enrolled=user?user.enrolled||[]:[];grid.innerHTML=data.map(c=>{const en=enrolled.includes(c.id);return`<div class="card">${c.badge?`<span class="card-badge">🔥 ${c.badge}</span>`:''}<div class="card-img" style="background:${c.img}">${c.icon}</div><div class="card-name">${c.name}</div><div class="card-desc">${c.desc}</div><div class="card-meta"><span class="price">$${c.price}</span><span class="dur">📅 ${c.duration}</span></div>${en?'<button class="enroll" style="border-color:#00e676;color:#00e676;">✅ Enrolled</button>':`<button class="enroll" onclick="enrollC(${c.id})">📚 Enroll - $${c.price}</button>`}</div>`}).join('')}
+
+function filterC(f){document.querySelectorAll('.f-btn').forEach(b=>b.classList.remove('active'));event.target.classList.add('active');renderC(f)}
+
+function enrollC(id){const user=DB.getCurrent();if(!user){showT('⚠️ Fadlan login!');return}const c=courses.find(x=>x.id===id);if((user.enrolled||[]).includes(id)){showT('✅ Horey baad u qortay!');return}document.getElementById('payCourseName').textContent=c.name;document.getElementById('payPrice').textContent='$'+c.price;document.getElementById('paymentM').dataset.courseId=id;document.getElementById('paymentM').classList.add('active')}
+
+function processPay(){const cn=document.getElementById('cardNumber').value.trim(),ce=document.getElementById('cardExpiry').value.trim(),cv=document.getElementById('cardCvv').value.trim(),cn2=document.getElementById('cardName').value.trim();if(!cn||!ce||!cv||!cn2){showT('⚠️ Buuxi faahfaahinta kaadhka!');return}const id=parseInt(document.getElementById('paymentM').dataset.courseId),c=courses.find(x=>x.id===id);showT('⏳ Processing...');setTimeout(()=>{const p=DB.getPurchases();p.push({id:Date.now(),userId:DB.getCurrent().email,courseId:id,courseName:c.name,amount:c.price,date:new Date().toISOString(),status:'completed'});DB.savePurchases(p);let users=DB.getUsers(),user=users.find(u=>u.email===DB.getCurrent().email);if(user){if(!user.enrolled)user.enrolled=[];if(!user.enrolled.includes(id))user.enrolled.push(id);DB.saveUsers(users);DB.setCurrent(user)}closeM('paymentM');renderC();renderE();showT('✅ Paid! You now own '+c.name+'!')},1500)}
+
+function renderE(){const user=DB.getCurrent(),grid=document.getElementById('enrolledGrid');if(!user||!user.enrolled||!user.enrolled.length){grid.innerHTML='<div style="color:var(--muted);font-size:14px;text-align:center;padding:40px;background:var(--dark3);border-radius:var(--radius-lg);"><i class="fas fa-graduation-cap" style="font-size:40px;color:var(--gold);margin-bottom:10px;display:block;"></i>Enroll in courses below to see them here!</div>';return}const ec=courses.filter(c=>user.enrolled.includes(c.id));grid.innerHTML=ec.map(c=>`<div style="background:rgba(255,215,0,0.05);border:1px solid rgba(255,215,0,0.1);border-radius:12px;padding:15px;display:flex;align-items:center;gap:12px;"><span style="font-size:30px;">${c.icon}</span><div><h4 style="color:var(--text);font-size:14px;">${c.name}</h4><p style="color:var(--gold);font-size:11px;">✅ Enrolled • ${c.duration}</p></div></div>`).join('')}
+
+function showProfile(){const u=DB.getCurrent();if(!u)return;document.getElementById('profileMAvatar').textContent=u.name.charAt(0).toUpperCase();document.getElementById('profileMName').textContent=u.name;document.getElementById('profileMEmail').textContent=u.email;document.getElementById('profileMPhone').textContent='📱 '+(u.phone||'Not set');document.getElementById('profileMCourses').textContent='Enrolled: '+(u.enrolled||[]).length+' courses';document.getElementById('profileM').classList.add('active')}
+
+function openM(id){document.getElementById(id).classList.add('active')}
+function closeM(id){document.getElementById(id).classList.remove('active')}
+
+function showT(m){const t=document.getElementById('toast');document.getElementById('toastMsg').textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3500)}
+</script>
+</body>
+</html>
